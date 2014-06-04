@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://kevindoran.github.io/sitemap.xml 
+Sitemap: http://blog.kevindoran.co/sitemap.xml 
