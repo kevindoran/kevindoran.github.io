@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Doran]]></title>
   <link href="http://kevindoran.github.io/atom.xml" rel="self"/>
   <link href="http://kevindoran.github.io/"/>
-  <updated>2014-06-07T14:35:46+12:00</updated>
+  <updated>2014-06-07T17:09:40+12:00</updated>
   <id>http://kevindoran.github.io/</id>
   <author>
     <name><![CDATA[Kevin Doran]]></name>
@@ -24,11 +24,11 @@ List style is weird.
 -->
 
 <p>
-	I recently had the need to search a large amount of online auction data. I had access to the data associated with a large number of online auctions, similar to auctions on eBay. I needed to quickly find auctions whose title and description match a given set of search terms. My solution was to use <a href="http://en.wikipedia.org/wiki/Apache_Solr" target="_blank">Solr</a>, an open source search application/platform.&nbsp; This post describes the steps I carried out to set-up Solr, and the difficulties encountered along the way. The post covers Solr 4.6. <br />
+	I recently had the need to search a large amount of online auction data. I had access to the data associated with a large number of online auctions, similar to auctions on eBay. I needed to quickly find auctions whose title and description match a given set of search terms. My solution was to use <a href="http://en.wikipedia.org/wiki/Apache_Solr" target="_blank">Solr</a>, an open source search application/platform.&nbsp; This post describes the steps I carried out to set-up Solr, and the difficulties encountered along the way. The post covers Solr 4.8. <br />
 </p>
 <!-- more -->
 <p>
-	The decision to use Solr was based on the need for a fast and customisable mechanism to search for auctions. Initially, MySQL&#8217;s <a href="http://dev.mysql.com/doc/refman/5.0/en/fulltext-search.html" target="_blank">fulltext search</a> was used. This was slow, inflexible and had a number of issues such as not recognising numbers or common words.<br />
+	The decision to use Solr was based on the need for a fast and customisable mechanism to search for auctions. Initially, MySQL&#8217;s <a href="http://dev.mysql.com/doc/refman/5.7/en/fulltext-search.html" target="_blank">fulltext search</a> was used. This was slow, inflexible and had a number of issues such as not recognising numbers or common words.<br />
 </p>
 
 <h2>Overview of Solr operation</h2>
@@ -99,7 +99,7 @@ List style is weird.
 </span></code></pre></td></tr></table></div></figure>
 
 <p>
-	Usually, the default <code>solr.xml</code> is sufficient. You may want to change the core names and core directory names. <a href="http://lucidworks.lucidimagination.com/display/solr/Configuring+solr.xml" target="_blank">Further details</a> on configuring <code>solr.xml</code>.
+	Usually, the default <code>solr.xml</code> is sufficient. You may want to change the core names and core directory names. <a href="https://cwiki.apache.org/confluence/display/solr/Solr+Cores+and+solr.xml" target="_blank">Further details</a> on configuring <code>solr.xml</code>.
 </p>
 <p>
 	In Solr 4.3 and above, <code>solr.xml</code> has a <a href="https://cwiki.apache.org/confluence/display/solr/Format+of+solr.xml">new purpose and a new format</a>. In Solr 5.0 and above, the older format will not be supported. 
@@ -109,6 +109,7 @@ List style is weird.
 <p>
 	A Solr schema describes the basic unit of information: a <em>document</em>. Each Solr core has a single schema, and thus, indexes only one &#8216;form&#8217; of document. A document is composed of multiple <em>fields</em>. Each field has a <em>type</em>. This type is defined in the schema and specifies the underlying Java class that is created when the field is indexed. The type also specifies the text analysis (processing/digestion) that is carried out when the field is indexed. An example document and a section of the corresponding <code>schema.xml</code> is shown below.
 </p>
+
 <figure class='code'><figcaption><span>exampleSolrDoc.xml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -181,7 +182,7 @@ List style is weird.
 
 <h3>Fields</h3>
 <p>
-	A field describes a piece of information within a document. It controls aspects of the indexing process such as what Java type is used to represent the data, whether the data is stored, whether the field is required in every document etc. There are two types of special fields: <strong>copyField</strong> and <strong>dynamicField</strong> (not to be confused with the type parameter such as type=&#8221;string&#8221;). 
+	A field describes a piece of information within a document. It controls aspects of the indexing process such as what Java type is used to represent the data, whether the data is stored, whether the field is required in every document etc. There are two types of special fields: <em>copyField</em> and <em>dynamicField</em> (not to be confused with the type parameter such as type=&#8221;string&#8221;). 
 </p>
 <dl>
 	<dt>copyField</dt>
@@ -219,6 +220,9 @@ List style is weird.
 </span></code></pre></td></tr></table></div></figure>
 
 <h3>Analysers, tokenisers and filters</h3>
+<p>
+Each field has a type, and each type is defined by a set of analysers (which are made up of tokenizers and filters). 
+</p>
 <dl>
 	<dt>Analyser</dt>
 	<dd>An analyzer converts the text of a field and modifies it to form the 
@@ -235,6 +239,65 @@ List style is weird.
 <p>
 	A useful note: analyzers can operate both at index time and at query time. In other words, they transform both the documents that are indexed and the search terms that are used by a user.
 </p>
+
+<p>
+	A reasonably complex analyzer is shown below. It is defined in the example Solr <code>schema.xml</code> file for the <code>fieldType</code> text_en:
+</p>
+<figure class='code'><figcaption><span>schemaPart.xml </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;fieldType</span> <span class="na">name=</span><span class="s">&quot;text_en&quot;</span> <span class="na">class=</span><span class="s">&quot;solr.TextField&quot;</span> <span class="na">positionIncrementGap=</span><span class="s">&quot;100&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;analyzer</span> <span class="na">type=</span><span class="s">&quot;index&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;tokenizer</span> <span class="na">class=</span><span class="s">&quot;solr.StandardTokenizerFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.StopFilterFactory&quot;</span>
+</span><span class='line'>			<span class="na">ignoreCase=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>			<span class="na">words=</span><span class="s">&quot;lang/stopwords_en.txt&quot;</span>
+</span><span class='line'>			<span class="na">enablePositionIncrements=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>			<span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.LowerCaseFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.EnglishPossessiveFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.KeywordMarkerFilterFactory&quot;</span> <span class="na">protected=</span><span class="s">&quot;protwords.txt&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.PorterStemFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/analyzer&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;analyzer</span> <span class="na">type=</span><span class="s">&quot;query&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;tokenizer</span> <span class="na">class=</span><span class="s">&quot;solr.StandardTokenizerFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.SynonymFilterFactory&quot;</span> <span class="na">synonyms=</span><span class="s">&quot;synonyms.txt&quot;</span> <span class="na">ignoreCase=</span><span class="s">&quot;true&quot;</span> <span class="na">expand=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.StopFilterFactory&quot;</span>
+</span><span class='line'>			<span class="na">ignoreCase=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>			<span class="na">words=</span><span class="s">&quot;lang/stopwords_en.txt&quot;</span>
+</span><span class='line'>			<span class="na">enablePositionIncrements=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>			<span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.LowerCaseFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.EnglishPossessiveFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.KeywordMarkerFilterFactory&quot;</span> <span class="na">protected=</span><span class="s">&quot;protwords.txt&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">&quot;solr.PorterStemFilterFactory&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/analyzer&gt;</span>
+</span><span class='line'><span class="nt">&lt;/fieldType&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 <p>
 	<code>solrconfig.xml</code> is used to configure many aspects of Solr&#8217;s operation, for example, it is used to configure:
 </p>
@@ -250,6 +313,9 @@ List style is weird.
 
 <h2>Indexing data</h2>
 <p>
+There two difficult issues I encountered for which it can be hard to uncover the cause of the problem. This section can be skipped and returned to if issues arise.
+</p>
+<p>
 	There are two ways I have used to add documents to an index: posting XML 
 	to a request handler or importing it from a database. All the data I index is also stored in a database. I initially carry out a data import from a database to catch up on the 
 	database from an empty state. Once this import is finished, new 
@@ -258,7 +324,7 @@ List style is weird.
 
 <h3>Importing from a database</h3>
 <p>
-	Importing data from a database in carried out using the <a href="http://wiki.apache.org/solr/DataImportHandler%20Data%20Import%20Handler" target="_blank">Data Import Handler</a> 
+	Importing data from a database in carried out using the <a href="https://cwiki.apache.org/confluence/display/solr/Uploading+Structured+Data+Store+Data+with+the+Data+Import+Handler" target="_blank">Data Import Handler</a> 
 	(DIH). To use the DIH, a configuration file must be created to direct 
 	the conversion. In addition to the configuration file, a request handler must be specified in <code>solrconfig.xml</code> for the DIH. The details of writing the configuration file is given in the above link.
 </p>
@@ -307,11 +373,11 @@ List style is weird.
 <p>
 	Thus, there is a need to convert the original XML into the form which Solr expects. There are two ways to do this conversion:
 </p>
-<ul>
+<ol class='detailed-list'>
 	<li> In Java: JAXP API can be used to carry out the conversion. This will require writing custom code to do the conversion. Alternatively, if your data exists as Java classes, you can index those through SolrJ, which has a persistence mechanism allowing Java objects to be indexed directly. </li>
 	<li> Use XSLT: Configure the Solr request handler to transform the 
 		posted XML using a specified XSLT before trying to index the document. An XSLT file to transform an XML document (with root XML element &#8216;Auction&#8217;) is shown below:</li>
-</ul>
+</ol>
 <figure class='code'><figcaption><span>xmlToSolrDoc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -394,6 +460,9 @@ List style is weird.
 </span><span class='line'><span class="nt">&lt;/xsl:stylesheet&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 <h2>Indexing snares</h2>
+<p>
+	There are two issues I encountered for which I had trouble finding information online. Consider coming back to this section if you have issues with indexing or the DIH, and you might be in luck.
+</p>
 <h3>Letter case in the DIH configuration file</h3>
 <p>
 	Table and row names in the DIH configuration file are tediously case-sensitive-ish. Some places the case doesn&#8217;t matter, and other places it does. Where it does matter, the table and row names must be in the exact same form as in the database. Also, case must be internally consistent within the configuration file for most name usages.
@@ -451,14 +520,16 @@ this schema field catches all fields in the document which have not been mapped 
 <p>
 	<a href="http://localhost:8983/solr/auctions/broadQuery?q=dell+monitor+IPS">http://localhost:8983/solr/auctions/broadQuery?q=dell+monitor+IPS</a>
 	<br/>
-	[Assuming that &#8216;auctions&#8217; is the name of your Solr core, and Solr is hosted on localhost]
+	<span class='note'>
+		(Assuming that &#8216;auctions&#8217; is the name of your Solr core, and Solr is hosted on localhost)
+	</span>
 </p>
 
 <p>While most of the search handler&#8217;s configuration can be understood from the comments, defType, pf, ps and mm might need further explanation:
 </p>
 <dl>
 	<dt>defType</dt>
-	<dd>defType specifies the search parser to use. There are a number of popular search parsers including <a href="http://lucidworks.lucidimagination.com/display/solr/The+Standard+Query+Parser%20Lucene" target="_blank">Standard Search</a>,<a href="http://lucidworks.lucidimagination.com/display/solr/The+DisMax+Query+Parser" target="_blank">DisMax</a> and <a href="http://lucidworks.lucidimagination.com/display/solr/The+Extended+DisMax+Query+Parser" target="_blank">eDisMax</a>. eDismax combines the features of both the Standard Search and DisMax; eDisMax supports the full query syntax of the Lucene Standard Query, but is far more tolerant of syntax errors. eDismax seems like the obvious choice in most circumstances.</dd>
+	<dd>defType specifies the search parser to use. There are a number of popular search parsers including <a href="https://cwiki.apache.org/confluence/display/solr/The+Standard+Query+Parser" target="_blank">Standard Search</a>,<a href="https://cwiki.apache.org/confluence/display/solr/The+DisMax+Query+Parser" target="_blank">DisMax</a> and <a href="https://cwiki.apache.org/confluence/display/solr/The+Extended+DisMax+Query+Parser" target="_blank">eDisMax</a>. eDismax combines the features of both the Standard Search and DisMax; eDisMax supports the full query syntax of the Lucene Standard Query, but is far more tolerant of syntax errors. eDismax seems like the obvious choice in most circumstances.</dd>
 	<dt>pf</dt>
 	<dd>pf (phase fields) specifies what fields should be checked for having matching &#8216;phrases&#8217;. If matching terms are close enough together, then they can be considered a phrase. A result with a matching phrase will score higher than one with no matching phase. You can also specify a weighting: a field weighting will control the effect of a match on the match&#8217;s score. For example, a phrase found in the title will score higher that one found in feature.</dd>
 	<dt>ps</dt>
@@ -516,17 +587,17 @@ this schema field catches all fields in the document which have not been mapped 
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
-		<h2>Further reading</h2>
-		<p>
-			I have briefly covered many common tasked carried out when using Solr. There are many more features: search faceting, search clustering, distributed searches and index replication to name a few. There are many comprehensive sources available. Some useful sources I would suggest:
-		</p> 
-		<ul>
-			<li><a href="http://lucidworks.lucidimagination.com/display/solr/Apache+Solr+Reference+Guide" target="_blank">Lucid Works&#8217; Solr Reference Guide</a></li>
-			<li><a href="http://www.amazon.com/gp/product/1782161325/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1782161325&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Apache Solr 4 Cookbook</a></li>
-			<li><a href="http://www.amazon.com/gp/product/1933988177/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1933988177&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Lucene in Action, 2nd Edition</a> (if you want to go to a lower level than Solr)</li>
-			<li><a href="http://www.amazon.com/gp/product/0596802277/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596802277&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Search Patterns</a> (from a data mining perspective)</li>
-			<li><a href="http://www.amazon.com/gp/product/1935182854/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1935182854&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Tika in Action</a> (if you want to index and search documents such as PDFs)</li>
-		</ul>
+<h2>Further reading</h2>
+<p>
+	I have briefly covered many common tasked carried out when using Solr. There are many more features: search faceting, search clustering, distributed searches and index replication to name a few. There are many comprehensive sources available. Some useful sources I would suggest:
+</p> 
+<ul>
+	<li><a href="http://www.amazon.com/gp/product/1617291021/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1617291021&linkCode=as2&tag=kevidoraprog-20&linkId=WHTDMHU3HOMEGTUP" target="_blank">Solr in Action</a></li>
+	<li><a href="https://cwiki.apache.org/confluence/display/solr/Apache+Solr+Reference+Guide" target="_blank">Lucid Works&#8217; Solr Reference Guide</a></li>
+	<li><a href="http://www.amazon.com/gp/product/193398838X/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=193398838X&linkCode=as2&tag=kevidoraprog-20&linkId=FGBKCGZ6BOOMWOGZ" target="_blank">Taming Text</a> (practical guide for all types of text searching and manipulations)</li>
+	<li><a href="http://www.amazon.com/gp/product/1933988177/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1933988177&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Lucene in Action, 2nd Edition</a> (if you want to go to a lower level than Solr)</li>
+	<li><a href="http://www.amazon.com/gp/product/1935182854/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1935182854&amp;linkCode=as2&amp;tag=kevidoraprog-20" target="_blank">Tika in Action</a> (if you want to index and search documents such as PDFs)</li>
+</ul>
 
 
 ]]></content>
