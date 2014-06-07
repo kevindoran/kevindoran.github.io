@@ -2,18 +2,22 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/</loc>
-        <lastmod>2014-06-04T20:29:19+12:00</lastmod>
+        <lastmod>2014-06-07T13:47:09+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/blog/archives/</loc>
-        <lastmod>2014-06-04T20:29:19+12:00</lastmod>
+        <lastmod>2014-06-07T13:47:09+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/</loc>
-        <lastmod>2014-06-04T20:29:19+12:00</lastmod>
+        <lastmod>2014-06-07T13:47:09+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kevindoran.github.io/posts/</loc>
+        <lastmod>2014-06-07T13:47:09+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/robots.txt</loc>
-        <lastmod>2014-06-03T16:44:07+12:00</lastmod>
+        <lastmod>2014-06-05T12:22:25+12:00</lastmod>
     </url>
 </urlset>
