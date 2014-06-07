@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Doran]]></title>
   <link href="http://kevindoran.github.io/atom.xml" rel="self"/>
   <link href="http://kevindoran.github.io/"/>
-  <updated>2014-06-07T17:09:40+12:00</updated>
+  <updated>2014-06-07T18:47:21+12:00</updated>
   <id>http://kevindoran.github.io/</id>
   <author>
     <name><![CDATA[Kevin Doran]]></name>
@@ -77,6 +77,7 @@ List style is weird.
 <p>
 	When configuring Solr, it is helpful to have a picture of the Solr home directory structure, and to know where all the configuration files are located. The image below shows important configuration files within the example Solr directory.
 </p>
+<img id="solrDirectory" src="http://kevindoran.github.io/images/solrDirectoryStructure.jpg" alt="Solr Directory Structure"/>
 
 <h2>Solr cores</h2>
 <p>
@@ -298,6 +299,82 @@ Each field has a type, and each type is defined by a set of analysers (which are
 </span><span class='line'>	<span class="nt">&lt;/analyzer&gt;</span>
 </span><span class='line'><span class="nt">&lt;/fieldType&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
+<h2>Schema Snares</h2>
+<p>
+There are two issues I encountered when creating a schema for which I had trouble finding information online. Consider coming back to this section if you have issues. 
+</p>
+<h3>Multivalued Fields</h3>
+<p>
+Multivalued refers to the possibility of their being two values for present in the same document for a single field. For example, for the document shown below, there is always only one title. An example of a multivalued field is the feature field, this can have many values in a single document. What is important to realise when using multivalued fields, is that the data gets flattened. If an auction has 2 features, then the two features get flattened such that the relationship between the name and the value of the feature is lost. 
+</p>
+
+<figure class='code'><figcaption><span>schemaPart.xml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="c">&lt;!-- What an auction might look like in its original XML form: --&gt;</span>
+</span><span class='line'><span class="nt">&lt;auction&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;title&gt;</span>Desktop PC<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;feature&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;name&gt;</span>RAM<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;value&gt;</span>16 GB<span class="nt">&lt;/value&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/feature&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;feature&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;name&gt;</span>CPU Frequency<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;value&gt;</span>4.5 GHz<span class="nt">&lt;/value&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/feature&gt;</span>
+</span><span class='line'><span class="nt">&lt;/auction&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&lt;!-- What an auction would look like as a Solr document: --&gt;</span>
+</span><span class='line'><span class="nt">&lt;doc&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span><span class="nt">&gt;</span>Desktop PC<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_name&quot;</span><span class="nt">&gt;</span>RAM<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_value&quot;</span><span class="nt">&gt;</span>16 GB<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_name&quot;</span><span class="nt">&gt;</span>CPU Frequency<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_value&quot;</span><span class="nt">&gt;</span>4.5 GHz<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'><span class="nt">&lt;/doc&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&lt;!-- The *effect* of multivalued field flattening: --&gt;</span>
+</span><span class='line'><span class="nt">&lt;doc&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span><span class="nt">&gt;</span>Desktop PC<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_name&quot;</span><span class="nt">&gt;</span>RAM CPU Frequency<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;feature_value&quot;</span><span class="nt">&gt;</span>16 GB 4.5 GHz<span class="nt">&lt;/field&gt;</span>
+</span><span class='line'><span class="nt">&lt;/doc&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>
+	By observing the way the data is indexed, it is clear that the relationship between the name and value pairs is lost. In other words, one to many relationships cannot be maintained by Solr in a single index (the is an exotic method of using multiple indexes and multiple cores). From a relational database point of view, Solr flattens all data into a single &#8216;table&#8217;.
+</p>
+
+<h3>PolyFields</h3>
+<p>
+	A ployfield, such as the <code>Currency</code> field, is a field that requires more than one value to be stored when it is indexed. The currency field needs to store both the amount of money and the currency of the money. Polyfields <em>must</em> have <code>stored=true</code>, or errors will result.
+</p>
+
+<h2>solrconfig.xml</h2>
 <p>
 	<code>solrconfig.xml</code> is used to configure many aspects of Solr&#8217;s operation, for example, it is used to configure:
 </p>
@@ -470,10 +547,8 @@ There two difficult issues I encountered for which it can be hard to uncover the
 <h3>Missing fields in posted XML and DIH mapping everything to the ignore field</h3>
 <p>
 	These two seemingly unrelated issues are linked by the presence of a dynamic field in <code>schema.xml</code>. When posting XML data, all fields defined in the schema file <strong>must be present</strong> in the XML file being posted. If there are fields in the XML document which are not used in the index, errors are throw when posting the XML. The way around this is to create a catch-all field:
-
-<syntaxhighlight lang="xml"><dynamicfield multivalued="true" name="*" type="ignored"></dynamicfield></syntaxhighlight>
-
-this schema field catches all fields in the document which have not been mapped to another field. This workaround, however, interferes with the operation of the DIH. The DIH, annoyingly, maps nearly all fields to the catch-all field. This may have something to do with the nice feature of the DIH which allows you to leave out every mapping from row-&gt;field if the row and field have the same name. Leaving out these mappings, however, seems to cause all fields to map to the catch-all ignore field. My current hack involves changing the <code class="inline-green-code">schema.xml</code> file every time I want to import documents using the DIH.</p>
+	this schema field catches all fields in the document which have not been mapped to another field. This workaround, however, interferes with the operation of the DIH. The DIH, annoyingly, maps nearly all fields to the catch-all field. This may have something to do with the nice feature of the DIH which allows you to leave out every mapping from row-&gt;field if the row and field have the same name. Leaving out these mappings, however, seems to cause all fields to map to the catch-all ignore field. My current hack involves changing the <code class="inline-green-code">schema.xml</code> file every time I want to import documents using the DIH.
+</p>
 
 <h2>Searching</h2>
 <p>
