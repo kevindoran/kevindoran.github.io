@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Doran]]></title>
   <link href="http://kevindoran.github.io/atom.xml" rel="self"/>
   <link href="http://kevindoran.github.io/"/>
-  <updated>2014-06-08T15:49:30+12:00</updated>
+  <updated>2014-06-08T16:04:10+12:00</updated>
   <id>http://kevindoran.github.io/</id>
   <author>
     <name><![CDATA[Kevin Doran]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How Java EE is the Charizard of Web Frameworks]]></title>
-    <link href="http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks/"/>
+    <link href="http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks/"/>
     <updated>2014-06-07T20:59:52+12:00</updated>
-    <id>http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks</id>
+    <id>http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks</id>
     <content type="html"><![CDATA[<p>
     When using Java EE to create web applications it can be a powerful but difficult to tame platform, much like the Pokémon character, Charizard. <span class="note">Note: Java EE is much more than a web framework, but this discussion focuses on using it to create web applications.</span> 
 </p>
@@ -139,9 +139,9 @@ I used the previous editions of some of these books, as it was a while ago when 
   
   <entry>
     <title type="html"><![CDATA[Solr Tutorial]]></title>
-    <link href="http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/"/>
+    <link href="http://kevindoran.github.io/solr-tutorial/"/>
     <updated>2014-06-04T12:15:47+12:00</updated>
-    <id>http://kevindoran.github.io/blog/2014/06/04/solr-tutorial</id>
+    <id>http://kevindoran.github.io/solr-tutorial</id>
     <content type="html"><![CDATA[<p>
 	I recently had the need to search a large amount of online auction data. I had access to the data associated with a large number of online auctions, similar to auctions on eBay. I needed to quickly find auctions whose title and description match a given set of search terms. My solution was to use <a href="http://en.wikipedia.org/wiki/Apache_Solr" target="_blank">Solr</a>, an open source search application/platform.&nbsp; This post describes the steps I carried out to set-up Solr, and the difficulties encountered along the way. The post covers Solr 4.8. <br />
 </p>
@@ -799,9 +799,9 @@ There two difficult issues I encountered for which it can be hard to uncover the
   
   <entry>
     <title type="html"><![CDATA[Bluetooth Programming with Python 3]]></title>
-    <link href="http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3/"/>
+    <link href="http://kevindoran.github.io/bluetooth-programming-with-python-3/"/>
     <updated>2013-04-21T19:10:33+12:00</updated>
-    <id>http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3</id>
+    <id>http://kevindoran.github.io/bluetooth-programming-with-python-3</id>
     <content type="html"><![CDATA[<p>
 This post presents basic techniques for communicating over Bluetooth with Python 3.3 and above (using Python sockets). Some simple examples of communicating over 
 Bluetooth with sockets will be shown. <a href="http://code.google.com/p/pybluez/">PyBluez</a> examples will also be presented for 
@@ -1049,9 +1049,9 @@ There is little to no information on Bluetooth programming with Python sockets. 
   
   <entry>
     <title type="html"><![CDATA[How to Create Dynamic Menus in JSF]]></title>
-    <link href="http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf/"/>
+    <link href="http://kevindoran.github.io/how-to-create-dynamic-menus-in-jsf/"/>
     <updated>2013-02-01T20:59:39+13:00</updated>
-    <id>http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf</id>
+    <id>http://kevindoran.github.io/how-to-create-dynamic-menus-in-jsf</id>
     <content type="html"><![CDATA[<p>
     This post presents an effective way to create a dynamic menu in JSF. Code for the menu can be accessed from its <a href='https://code.google.com/p/jsf-menu/downloads/list' target="_blank">Google Code Project</a>.
 </p>
@@ -1466,9 +1466,9 @@ There are a number of books on JSF and Primefaces that I have found useful when 
   
   <entry>
     <title type="html"><![CDATA[App Which Helps You Choose a Movie to Watch When You Have Too Many]]></title>
-    <link href="http://kevindoran.github.io/blog/2012/04/15/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/"/>
+    <link href="http://kevindoran.github.io/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/"/>
     <updated>2012-04-15T14:21:14+12:00</updated>
-    <id>http://kevindoran.github.io/blog/2012/04/15/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many</id>
+    <id>http://kevindoran.github.io/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many</id>
     <content type="html"><![CDATA[<p>
 When I want to watch a movie, I have far too many to choose from on my computer and home network. It takes me a long time to sift through them all to find a really good one. The process is:
 </p>

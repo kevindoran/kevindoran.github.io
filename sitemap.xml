@@ -2,28 +2,24 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>
-            http://kevindoran.github.io/blog/2012/04/15/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/
+            http://kevindoran.github.io/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/
         </loc>
         <lastmod>2014-06-08T15:49:01+12:00</lastmod>
     </url>
     <url>
-        <loc>http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf/</loc>
+        <loc>http://kevindoran.github.io/how-to-create-dynamic-menus-in-jsf/</loc>
         <lastmod>2014-06-08T15:46:42+12:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3/
-        </loc>
+        <loc>http://kevindoran.github.io/bluetooth-programming-with-python-3/</loc>
         <lastmod>2014-06-08T15:44:56+12:00</lastmod>
     </url>
     <url>
-        <loc>http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/</loc>
+        <loc>http://kevindoran.github.io/solr-tutorial/</loc>
         <lastmod>2014-06-08T15:36:38+12:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks/
-        </loc>
+        <loc>http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks/</loc>
         <lastmod>2014-06-08T15:42:59+12:00</lastmod>
     </url>
     <url>
