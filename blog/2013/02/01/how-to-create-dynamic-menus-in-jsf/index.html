@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Create Dynamic Menus in JSF - Kevin Doran</title>
+  <meta name="author" content="Kevin Doran">
+
+  
+  <meta name="description" content="How to Create Dynamic Menus in JSF written Feb 1st, 2013 This post presents an effective way to create a dynamic menu in JSF. Code for the menu can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kevin Doran" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="//use.typekit.net/jyo0fhs.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49527422-5', 'kevindoran.co');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>How to Create Dynamic Menus in JSF</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-02-01T20:59:39+13:00" pubdate data-updated="true">Feb 1<span>st</span>, 2013</time>
+          
+
+
+        </div>
+        <p>
+    This post presents an effective way to create a dynamic menu in JSF. Code for the menu can be accessed from its <a href='https://code.google.com/p/jsf-menu/downloads/list' target="_blank">Google Code Project</a>.
+</p>
+
+<p>
+    The menu, with some basic CSS styling is shown below. The menu uses plain JSF (without needing Primefaces). Some extra CSS can be used to make it look pretty.
+</p>
+<!-- more -->
+<img id='jsfMenu' class='img-responsive' src='/images/jsfMenu.jpg' alt='Dynamic Menu using JSF' />
+
+<p>
+I used random numbers instead of a real example, so try and imaging names such as &#8220;Computer components&#8221;, &#8220;Laptops&#8221; and &#8220;Headphones&#8221; instead of the long numbers.<br />
+</p>
+<p>
+This menu is dynamic: clicking a menu item will cause the menu to be regenerated and the new menu items will be chosen based on the item that was clicked. The most common example of this behaviour is a hierarchical navigation menu, such as a category menu on eBay or Amazon. 
+</p>
+
+<h2>How to make the menu</h2>
+<p>
+The code required to create this menu is as follows:
+<figure class='code'><figcaption><span>The XHTML file</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:h=</span><span class="s">&quot;http://java.sun.com/jsf/html&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:mt=</span><span class="s">&quot;http://nz.co.kevindoran/jsf-menu&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h:head&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;title&gt;</span>Menu Table Test<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/h:head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h:body&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;h:form&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;h2&gt;</span>JSF Menu Table Test<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>            Current category: #{randomMenu.currentCategory}
+</span><span class='line'>            <span class="nt">&lt;mt:MenuTable</span> <span class="na">model=</span><span class="s">&quot;#{randomMenu.menuTable}&quot;</span> <span class="na">updateID=</span><span class="s">&quot;@form&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/h:form&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/h:body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>MenuBean.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">nz.co.kevindoran.jsfmenutable.MenuTable</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">nz.co.kevindoran.jsfmenutable.Subscriber</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@ManagedBean</span>
+</span><span class='line'><span class="nd">@ViewScoped</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomMenu</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">MenuTable</span><span class="o">&lt;</span><span class="n">Category</span><span class="o">&gt;</span> <span class="n">menuTable</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">columnCount</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">Category</span> <span class="n">currentCategory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Category</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">RandomMenu</span><span class="o">()</span>  <span class="o">{</span>
+</span><span class='line'>        <span class="n">menuTable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MenuTable</span><span class="o">&lt;&gt;(</span><span class="n">columnCount</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">menuTable</span><span class="o">.</span><span class="na">setContents</span><span class="o">(</span><span class="n">currentCategory</span><span class="o">.</span><span class="na">getChildCategories</span><span class="o">());</span>
+</span><span class='line'>        <span class="n">MenuClickListener</span> <span class="n">menuListener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MenuClickListener</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">menuTable</span><span class="o">.</span><span class="na">addSubscriber</span><span class="o">(</span><span class="n">menuListener</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">MenuClickListener</span> <span class="kd">implements</span> <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">Category</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nd">@Override</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">Category</span> <span class="n">change</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">currentCategory</span> <span class="o">=</span> <span class="n">change</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">menuTable</span><span class="o">.</span><span class="na">setContents</span><span class="o">(</span><span class="n">currentCategory</span><span class="o">.</span><span class="na">getChildCategories</span><span class="o">());</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">MenuTable</span><span class="o">&lt;</span><span class="n">Category</span><span class="o">&gt;</span> <span class="nf">getMenuTable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">menuTable</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">Category</span> <span class="nf">getCurrentCategory</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">currentCategory</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>
+    The main point to note here is how the <code>RandomMenu</code> listens for menu click events. Its inner class <code>MenuClickListener</code> implements Subscriber<Category> (you don&#8217;t need to use an inner class, <code>RandomMenu</code> could implement <code>Subscriber&lt;Category&gt;</code>). In other words, it is subscribing to the event of a <code>Category</code> being updated. When the menu is clicked, the <code>MenuTable</code> with call the <code>update(Category change)</code> method, passing it the <code>Category</code> that was clicked. 
+</p>
+<p>
+    The <code>Category</code> class I use simply generates random numbers for each of the menu items. In a more realistic situation, the following class would populate the menu with child categories of the clicked category, or something similar. The simply <code>Category</code> class is as follows:
+</p>
+<figure class='code'><figcaption><span>Category.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Category</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Category</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">Math</span><span class="o">.</span><span class="na">random</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Category</span><span class="o">&gt;</span> <span class="nf">getChildCategories</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Category</span><span class="o">&gt;</span> <span class="n">childCategories</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">20</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">childCategories</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Category</span><span class="o">());</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">childCategories</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Back End</h2>
+<p>
+The above code will work as is if you download the accompanying JAR from the <a href='https://code.google.com/p/jsf-menu/downloads/list' target='_blank'>Google Code project</a>. 
+If you are interested it how to make your own menu from scratch, below is the two extra pieces of code you will have to write:
+</p>
+
+<figure class='code'><figcaption><span>A Java Back Bean (MenuTable.java)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MenuTable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Row</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">rows</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">subscribers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">noOfColumns</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">MenuTable</span><span class="o">(</span><span class="kt">int</span> <span class="n">noOfColumns</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">noOfColumns</span> <span class="o">=</span> <span class="n">noOfColumns</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Organised the input objects into rows which are as even as possible </span>
+</span><span class='line'><span class="cm">     * (so that there isn&#39;t one huge row and other tiny rows).</span>
+</span><span class='line'><span class="cm">     *</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContents</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">objects</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">rows</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">maxColumnLength</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">(((</span><span class="kt">double</span><span class="o">)</span><span class="n">count</span><span class="o">)</span> <span class="o">/</span> <span class="n">noOfColumns</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">maxColumnLength</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">rows</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Row</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;());</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">noOfColumns</span><span class="o">;</span> <span class="n">col</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kt">double</span> <span class="n">left</span> <span class="o">=</span> <span class="n">count</span> <span class="o">-</span> <span class="n">col</span><span class="o">;</span>
+</span><span class='line'>            <span class="kt">double</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">left</span> <span class="o">/</span> <span class="n">noOfColumns</span><span class="o">;</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">columnLength</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">columnLength</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>                <span class="n">rows</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSelected</span><span class="o">(</span><span class="n">T</span> <span class="n">selected</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">updateSubscribers</span><span class="o">(</span><span class="n">selected</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">updateSubscribers</span><span class="o">(</span><span class="n">T</span> <span class="n">latest</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">s</span> <span class="o">:</span> <span class="n">subscribers</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">s</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">latest</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Row</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="nf">getRows</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">rows</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNoOfColumns</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">noOfColumns</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSubscriber</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">subscribers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Row</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">contents</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">getContents</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">contents</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">T</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">contents</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>JSF Composite Component (MenuTable.xhtml)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:cc=</span><span class="s">&quot;http://java.sun.com/jsf/composite&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:ui=</span><span class="s">&quot;http://java.sun.com/jsf/facelets&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:f=</span><span class="s">&quot;http://java.sun.com/jsf/core&quot;</span>
+</span><span class='line'>      <span class="na">xmlns:h=</span><span class="s">&quot;http://java.sun.com/jsf/html&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;cc:interface&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;cc:attribute</span> <span class="na">name=</span><span class="s">&quot;model&quot;</span> <span class="na">type=</span><span class="s">&quot;nz.co.kevindoran.jsfmenutable.MenuTable&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;cc:attribute</span> <span class="na">name=</span><span class="s">&quot;updateID&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/cc:interface&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;cc:implementation&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;table&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;ui:repeat</span> <span class="na">id=</span><span class="s">&quot;repeat1&quot;</span> <span class="na">value=</span><span class="s">&quot;#{cc.attrs.model.rows}&quot;</span> <span class="na">var=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;tr&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;ui:repeat</span> <span class="na">id=</span><span class="s">&quot;repeat2&quot;</span> <span class="na">value=</span><span class="s">&quot;#{row.contents}&quot;</span> <span class="na">var=</span><span class="s">&quot;entry&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;td&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;h:commandLink</span> <span class="na">actionListener=</span><span class="s">&quot;#{cc.attrs.model.setSelected(entry)}&quot;</span> <span class="na">value=</span><span class="s">&quot;#{entry.toString()}&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;f:ajax</span> <span class="na">render=</span><span class="s">&quot;#{cc.attrs.updateID}&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/h:commandLink&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/td&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/ui:repeat&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/tr&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/ui:repeat&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/table&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/cc:implementation&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Accessing the Code</h2>
+<p>
+The code to create the menu is hosted on a <a href="http://code.google.com/p/jsf-menu/" target="_blank">Google Code project</a>. There is also a <a href="http://code.google.com/p/jsf-menu/downloads/list" target="_blank">convenient JAR</a> that can be downloaded. There are three ways to use the project:
+</p>
+<ol class='detailed-list'>
+<li>Download the JAR from the <a href="http://code.google.com/p/jsf-menu/downloads/list" target="_blank">downloads list</a>, and include it on your classpath.</li>
+<li>Obtain the source code by cloning <a href="http://code.google.com/p/jsf-menu/source/checkout" target="_blank">the Mercurial repository</a>. </li>
+<li>The project is a Maven project, so you can install it in your local Maven repository (run: mvn install) and then add it as a dependency like so:</li>
+</ol>
+
+<figure class='code'><figcaption><span>Maven Pom Segment</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>nz.co.kevindoran<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>google-charts-jsf<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;type&gt;</span>jar<span class="nt">&lt;/type&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'><span class="nt">&lt;/dependencies&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>
+If you have obtained the Maven project, you can change the packaging element: <code>&lt;packaging&gt;jar&lt;/packaging&gt;</code> to <code>&lt;packaging&gt;war&lt;/packaging&gt;</code>. Deploying the resulting WAR file will run he examples show above.
+</p>
+<h3>Some Useful Resources</h3>
+<p>
+There are a number of books on JSF and Primefaces that I have found useful when working on this topic:
+</p>
+<ul>
+<li><a href="http://www.amazon.com/gp/product/1849519285/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1849519285&amp;linkCode=as2&amp;tag=kevidoraprog-20">PrimeFaces Cookbook</a><img alt="" border="0" src="http://www.assoc-amazon.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=1849519285" height="1" style="border: none !important; margin: 0px !important;" width="1" /></li>
+<li>
+<a href="http://www.amazon.com/gp/product/1849519900/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1849519900&amp;linkCode=as2&amp;tag=kevidoraprog-20">Instant PrimeFaces Starter</a><img alt="" border="0" src="http://ir-na.amazon-adsystem.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=1849519900" height="1" style="border: none !important; margin: 0px !important;" width="1" />
+</li>
+<li><a href="http://www.amazon.com/gp/product/0137012896/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0137012896&amp;linkCode=as2&amp;tag=kevidoraprog-20">Core JavaServer Faces (3rd Edition)</a><img alt="" border="0" src="http://www.assoc-amazon.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=0137012896" height="1" style="border: none !important; margin: 0px !important;" width="1" />
+</li>
+<li><a href="http://www.amazon.com/gp/product/1849512701/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1849512701&amp;linkCode=as2&amp;tag=kevidoraprog-20">Java EE 6 Development with NetBeans 7</a><img alt="" border="0" src="http://www.assoc-amazon.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=1849512701" height="1" style="border: none !important; margin: 0px !important;" width="1" /></li>
+</ul>
+
+        <hr class="divider-short"/>
+        
+          <div>
+            <h1>Comments</h1>
+            <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'kevio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf/';
+        var disqus_url = 'http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2012/04/15/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/" title="Previous Post: App Which Helps You Choose a Movie to Watch When You Have Too Many">&laquo; Previous: App Which Helps You Choose a Movie to Watch When You Have Too Many</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2013/04/21/bluetooth-programming-with-python-3/" title="Next Post: Bluetooth Programming with Python 3">Next: Bluetooth Programming with Python 3 &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/DoranK2"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+    <a href="https://github.com/kevindoran"><img src="/images/glyphicons_social_21_github.png"/></a>
+    
+
+    
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Design forked from <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

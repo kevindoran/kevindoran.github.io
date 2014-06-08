@@ -13,10 +13,7 @@
   <meta name="author" content="Kevin Doran">
 
   
-  <meta name="description" content="Solr Tutorial written Jun 4th, 2014 <!--
-Need block code style.
-List style is weird.
---> I recently had the need to search a large amount of online &hellip;">
+  <meta name="description" content="Solr Tutorial written Jun 4th, 2014 I recently had the need to search a large amount of online auction data. I had access to the data associated &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,12 +79,7 @@ List style is weird.
 
 
         </div>
-        <!--
-Need block code style.
-List style is weird.
--->
-
-<p>
+        <p>
 	I recently had the need to search a large amount of online auction data. I had access to the data associated with a large number of online auctions, similar to auctions on eBay. I needed to quickly find auctions whose title and description match a given set of search terms. My solution was to use <a href="http://en.wikipedia.org/wiki/Apache_Solr" target="_blank">Solr</a>, an open source search application/platform.&nbsp; This post describes the steps I carried out to set-up Solr, and the difficulties encountered along the way. The post covers Solr 4.8. <br />
 </p>
 <!-- more -->
@@ -141,7 +133,7 @@ List style is weird.
 <p>
 	When configuring Solr, it is helpful to have a picture of the Solr home directory structure, and to know where all the configuration files are located. The image below shows important configuration files within the example Solr directory.
 </p>
-<img id="solrDirectory" src="/images/solrDirectoryStructure.jpg" alt="Solr Directory Structure"/>
+<img id="solrDirectory" class='img-responsive' src="/images/solrDirectoryStructure.jpg" alt="Solr Directory Structure"/>
 
 <h2>Solr cores</h2>
 <p>
@@ -744,7 +736,25 @@ There two difficult issues I encountered for which it can be hard to uncover the
         
           <div>
             <h1>Comments</h1>
-            <div id="disqus_thread" aria-live="polite">Included file 'post/disqus.html' not found in _includes directory</div>
+            <div id="disqus_thread" aria-live="polite">
+
+<script type="text/javascript">
+      var disqus_shortname = 'kevio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/';
+        var disqus_url = 'http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+</div>
           </div>
         
       </div>
@@ -759,7 +769,11 @@ There two difficult issues I encountered for which it can be hard to uncover the
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         
+          <a class="pull-left" href="/blog/2013/04/21/bluetooth-programming-with-python-3/" title="Previous Post: Bluetooth Programming with Python 3">&laquo; Previous: Bluetooth Programming with Python 3</a>
+        
 
+        
+          <a class="pull-right" href="/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks/" title="Next Post: How Java EE is the Charizard of Web Frameworks">Next: How Java EE is the Charizard of Web Frameworks &raquo;</a>
         
       </div>
     </div>

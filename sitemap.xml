@@ -1,20 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://kevindoran.github.io/blog/2012/04/15/app-which-helps-you-choose-a-movie-to-watch-when-you-have-too-many/
+        </loc>
+        <lastmod>2014-06-08T15:30:25+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kevindoran.github.io/blog/2013/02/01/how-to-create-dynamic-menus-in-jsf/</loc>
+        <lastmod>2014-06-08T15:30:48+12:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3/
+        </loc>
+        <lastmod>2014-06-08T15:30:15+12:00</lastmod>
+    </url>
+    <url>
         <loc>http://kevindoran.github.io/blog/2014/06/04/solr-tutorial/</loc>
-        <lastmod>2014-06-07T19:00:48+12:00</lastmod>
+        <lastmod>2014-06-07T19:48:20+12:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks/
+        </loc>
+        <lastmod>2014-06-08T15:25:33+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/blog/archives/</loc>
-        <lastmod>2014-06-07T18:36:36+12:00</lastmod>
+        <lastmod>2014-06-08T15:30:48+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/</loc>
-        <lastmod>2014-06-07T18:36:36+12:00</lastmod>
+        <lastmod>2014-06-08T15:30:48+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/posts/</loc>
-        <lastmod>2014-06-07T18:36:36+12:00</lastmod>
+        <lastmod>2014-06-08T15:30:48+12:00</lastmod>
     </url>
     <url>
         <loc>http://kevindoran.github.io/robots.txt</loc>
