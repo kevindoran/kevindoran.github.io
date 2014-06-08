@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Bluetooth Programming With Python 3 - Kevin Doran</title>
+  <title>Bluetooth Programming with Python 3 - Kevin Doran</title>
   <meta name="author" content="Kevin Doran">
 
   
-  <meta name="description" content="Bluetooth Programming With Python 3 written Apr 21st, 2013 This post presents basic techniques for communicating over Bluetooth with Python 3.3 and &hellip;">
+  <meta name="description" content="Bluetooth Programming with Python 3 written Apr 21st, 2013 This post presents basic techniques for communicating over Bluetooth with Python 3.3 and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,7 +59,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h1>Bluetooth Programming With Python 3</h1>
+        <h1>Bluetooth Programming with Python 3</h1>
         <div class="meta">
           written 
 
@@ -87,7 +87,7 @@ comparison.
 
 <!-- more -->
 
-<h2>The Two Options</h2>
+<h2>The two options</h2>
 <p>
 Currently, the most widely documented way to communicate with Python over Bluetooth is to use <a href="http://code.google.com/p/pybluez/" target="">PyBluez.</a> Previously, PyBluez only supported Python 2. In January 2014, they released a Python 3 version. <br />
 </p>
@@ -95,16 +95,16 @@ Currently, the most widely documented way to communicate with Python over Blueto
 Python 3.3&#8217;s <a href="http://docs.python.org/3.3/library/socket.html" target="">native Python sockets</a> support Bluetooth communication. Unfortunately, there is very little documentation available describing <i>how</i> to use Python sockets to communicate over Bluetooth. While using Bluetooth with these sockets might be easy for someone who already knows how to use Python sockets, the lack of documentation leaves many people unaware that this method of using Bluetooth even exists. Since PyBluez was ported to Python 3, the use of native Python sockets has limited use.<br />
 </p>
 
-<h2>Required Skill: Finding the MAC Address of a Bluetooth Adapter</h2>
+<h2>Required skill: finding the MAC address of a bluetooth adapter</h2>
 <p>
 To run the examples, the MAC address of the Bluetooth adapter used by the server must be known. The client application uses this address to connect to the server. On Linux, you can get a list of all available Bluetooth devices and their MAC addresses using the command <code class="inline-green-code">hciconfig</code>, like so:<br />
 </p>
 <img id='hciconfig' class='img-responsive' src='/images/hciconfig.png' alt='hciconfig output'/>
-<h2>Client Sever Messaging</h2>
+<h2>Client sever messaging</h2>
 <p>
 This application connects two devices over Bluetooth and allows one to send messages to the other. The sending device runs <code class="inline-green-code">socketClient.py</code>, and the receiving device runs <code class="inline-green-code">socketServer.py</code>. These scripts are shown below, first using Python sockets, then using PyBluez:
 </p>
-<h3>Python Sockets</h3>
+<h3>Python sockets</h3>
 <figure class='code'><figcaption><span>Client (socketClient.py)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -312,7 +312,7 @@ To compare, below is the functionally identical application written using the Py
 <p>
 PyBluez is the most effective way of communicating over Bluetooth using Python. Python sockets can now be used for Bluetooth communication (since Python 3.3).&nbsp; For a simple application, the code is almost identical. For some tasks, however, such as device discovery and Bluetooth service advertisements, it does not seem possible to carry them out using Python sockets. Consequently, PyBluez surpassed Python sockets in most regards. <a href="http://stackoverflow.com/questions/10583362/bluetooth-lib-for-python-3/16129705#16129705">This Stackoverflow question</a> discusses some of the limitations of Python sockets for Bluetooth.<br />
 </p>
-<h2>Further Reading</h2>
+<h2>Further reading</h2>
 <p>
 There is little to no information on Bluetooth programming with Python sockets. There is plenty of information on PyBluez. The following are some useful resources:<br />
 </p>

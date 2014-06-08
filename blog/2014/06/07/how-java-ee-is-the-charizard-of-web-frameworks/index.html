@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>How Java EE Is the Charizard of Web Frameworks - Kevin Doran</title>
+  <title>How Java EE is the Charizard of Web Frameworks - Kevin Doran</title>
   <meta name="author" content="Kevin Doran">
 
   
-  <meta name="description" content="How Java EE Is the Charizard of Web Frameworks written Jun 7th, 2014 When using Java EE to create web applications it can be a powerful but &hellip;">
+  <meta name="description" content="How Java EE is the Charizard of Web Frameworks written Jun 7th, 2014 When using Java EE to create web applications it can be a powerful but &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -59,7 +59,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h1>How Java EE Is the Charizard of Web Frameworks</h1>
+        <h1>How Java EE is the Charizard of Web Frameworks</h1>
         <div class="meta">
           written 
 
@@ -94,12 +94,12 @@ For those of you who are not familiar with or do not remember the original Poké
 <a href="http://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition">Java EE</a> is the Charizard of Web Development Frameworks. If you can tame it, you can become a master web application developer. But if you don’t, you may find yourself bringing about fiery havoc to a web development project.
 </p>
 
-<h3>Untameable Java EE</h3>
+<h2>Untameable Java EE</h2>
 <p>
 There are 6 ways I list here in which I have had difficulty with Java EE. Firstly, I would like to correct my own post title, as <em>it is not entirely correct to call Java EE a web development framework</em>. It is so much more than that. However, this brings us nicely to the first aspect of Java EE which bewildered me as a newcomer: what exactly is Java EE?
 </p>
 
-<h4>1. What Exactly is Java EE</h4>
+<h3>1. What exactly is Java EE</h3>
 <p>
 When I visited Wikipedia, I found this description of Java EE:
 </p>
@@ -110,7 +110,7 @@ When I visited Wikipedia, I found this description of Java EE:
 This explanation of Java EE seems like a definition which you might re-read after mastering a topic and chuckle contently to oneself knowing that you recognise and appreciate each buzz-word. While each buzz-word may be simple to understand on its own, listing so many buzz-words together doesn&#8217;t paint a clear picture of Java EE. As a newcomer to Java EE, I found it very difficult to penetrate past the dense layer of jargon words which seemed ubiquitous. And it seems <a href="http://stackoverflow.com/questions/15774924/just-what-is-java-ee-really?lq=1">I wasn’t alone</a>.
 </p>
 
-<h4>2. 100 Ways to do the Same Thing</h4>
+<h3>2. 100 ways to do the same thing</h3>
 <p>
 With flexibility comes choice. When I began using Java EE, I struggled to decide how to tackle problems, even simple problems. When I am solving a problem, I feel comfortable creating a solution which I feel takes into account best practices and the success of other approaches to similar problems. However, I would find myself spending 90% of my time researching architectural decisions before beginning to tackle a task. This was due to the <em>overwhelming choice provided by the Java EE landscape</em>. Here are some of the sources of choice:
 </p>
@@ -134,22 +134,22 @@ Packaging options: should I have WARs and EJB JARs in an EAR, or just use a ligh
 Java EE offers immense flexibility. It is both a blessing and a curse.
 </p>
 
-<h4>3. Development is Slowed by Deployment</h4>
+<h3>3. Development is slowed by deployment</h3>
 <p>
     Unlike frameworks like the Java/Scala <a href="http://www.playframework.com/">Play Framework</a> or <a href="http://rubyonrails.org/">Ruby on Rails</a>, Java EE requires compilation and deployment before changes can be observed live. I worked on a reasonably large and modular project with many separate JARs, WARs and EARs. <em>Testing a few changes would require waiting about 20-30 seconds before seeing them live</em> (using reasonably powerful hardware). This delay was torturous when testing many minor tweaks. There are some tools to lessen this issue: <a href="http://zeroturnaround.com/software/jrebel/">JRebel</a> allows for instantaneous changes (if you can afford it), and Netbeans has some <a href="http://wiki.netbeans.org/CompileOnSave#Java_EE">features for live deployment</a>, but you are then tied to the IDE.  
 </p>
 
-<h4>4. PermGen Error</h4>
+<h3>4. PermGen error</h3>
 <p>
     While not a universal problem, I was plagued by this error. When an application is redeployed multiple times, the application server I used, Glassfish, would steadily increase its memory usage. This is due to the classloaders of the previous deployments and their loaded classes <a href="http://stackoverflow.com/questions/7683434/permgen-space-error-glassfish-server">not being garbage collected fully</a>. The memory leak would result in Glassfish having a PermGen Error ever 6-8 redeploys, and would require a forced killing and restart. While this issue was annoying, it did become a <em>funny office joke: “you got PermGenned”</em>.
 </p>
 
-<h4>5. Cryptic Stack Traces</h4>
+<h3>5. Cryptic stack traces</h3>
 <p>
 I feel like Glassfish uses my application’s exception traces as an excuse to carry out a lengthy secretive conversation with some elusive entity going by the name of Grizzy or Felix. At the start, end or somewhere in between, I’m sometimes lucky to have the reason for the exception tagged on. The error messages received are often very vague and can cover a broad range of possible root causes. Our developer team ended up keeping a map of exception messages to possible causes they might be alluding to.
 </p>
 
-<h4>6. Web Designers are not Familiar with JSF</h4>
+<h3>6. Web designers are not familiar with JSF</h3>
 <p>
 Web designers are not familiar with JSF, one of the most popular Java EE view technologies. JSF is great for developers to quickly create nicely looking prototype web applications without having to:
 </p>
@@ -175,12 +175,12 @@ front-end developers (skilled in CSS, Javascript and HTML)
 <p>
     JSF can be seen as <em>a technology choice of back-end developers which is forced upon front-end developers</em>. For anyone working on a project which is likely to have dedicated front-end developers, I advise against using JSF. Instead, I suggest using REST with JX-RS (if you are using Java EE), or another framework, such as the <a href="http://www.playframework.com/" target="_blank">Java Play Framework</a>. 
 </p>
-<h3>The Potential Power of Java EE</h3>
+<h2>The potential power of Java EE</h2>
 <p>
 All the difficulties aside, Java EE embodies a powerful set of technologies. Java EE abstracts away a phenomenal amount of complexity and creates a structure to encourage flexibility and extensibility which is hard to break. Once Java EE is tamed, a single developer can become as productive as a small team of developers which use more basic frameworks (assuming the application is complex enough). The uphill climb to tame Java EE and the many ways to stumble along the way makes Java EE the Charizard of web frameworks. <span class="note">(Java EE is much more than a web framework, but this discussion focuses on the use of Java EE to create web applications)</span>. 
 </p>
 
-<h4>Further Reading</h4>
+<h2>Further reading</h2>
 <p>
 If you decide to start or continue learning Java EE, here are some of the books and other resources I have found useful:
 </p>

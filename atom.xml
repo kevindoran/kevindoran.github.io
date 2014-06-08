@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Doran]]></title>
   <link href="http://kevindoran.github.io/atom.xml" rel="self"/>
   <link href="http://kevindoran.github.io/"/>
-  <updated>2014-06-08T15:34:11+12:00</updated>
+  <updated>2014-06-08T15:49:30+12:00</updated>
   <id>http://kevindoran.github.io/</id>
   <author>
     <name><![CDATA[Kevin Doran]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How Java EE Is the Charizard of Web Frameworks]]></title>
+    <title type="html"><![CDATA[How Java EE is the Charizard of Web Frameworks]]></title>
     <link href="http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks/"/>
     <updated>2014-06-07T20:59:52+12:00</updated>
     <id>http://kevindoran.github.io/blog/2014/06/07/how-java-ee-is-the-charizard-of-web-frameworks</id>
@@ -33,12 +33,12 @@ For those of you who are not familiar with or do not remember the original Poké
 <a href="http://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition">Java EE</a> is the Charizard of Web Development Frameworks. If you can tame it, you can become a master web application developer. But if you don’t, you may find yourself bringing about fiery havoc to a web development project.
 </p>
 
-<h3>Untameable Java EE</h3>
+<h2>Untameable Java EE</h2>
 <p>
 There are 6 ways I list here in which I have had difficulty with Java EE. Firstly, I would like to correct my own post title, as <em>it is not entirely correct to call Java EE a web development framework</em>. It is so much more than that. However, this brings us nicely to the first aspect of Java EE which bewildered me as a newcomer: what exactly is Java EE?
 </p>
 
-<h4>1. What Exactly is Java EE</h4>
+<h3>1. What exactly is Java EE</h3>
 <p>
 When I visited Wikipedia, I found this description of Java EE:
 </p>
@@ -49,7 +49,7 @@ When I visited Wikipedia, I found this description of Java EE:
 This explanation of Java EE seems like a definition which you might re-read after mastering a topic and chuckle contently to oneself knowing that you recognise and appreciate each buzz-word. While each buzz-word may be simple to understand on its own, listing so many buzz-words together doesn&#8217;t paint a clear picture of Java EE. As a newcomer to Java EE, I found it very difficult to penetrate past the dense layer of jargon words which seemed ubiquitous. And it seems <a href="http://stackoverflow.com/questions/15774924/just-what-is-java-ee-really?lq=1">I wasn’t alone</a>.
 </p>
 
-<h4>2. 100 Ways to do the Same Thing</h4>
+<h3>2. 100 ways to do the same thing</h3>
 <p>
 With flexibility comes choice. When I began using Java EE, I struggled to decide how to tackle problems, even simple problems. When I am solving a problem, I feel comfortable creating a solution which I feel takes into account best practices and the success of other approaches to similar problems. However, I would find myself spending 90% of my time researching architectural decisions before beginning to tackle a task. This was due to the <em>overwhelming choice provided by the Java EE landscape</em>. Here are some of the sources of choice:
 </p>
@@ -73,22 +73,22 @@ Packaging options: should I have WARs and EJB JARs in an EAR, or just use a ligh
 Java EE offers immense flexibility. It is both a blessing and a curse.
 </p>
 
-<h4>3. Development is Slowed by Deployment</h4>
+<h3>3. Development is slowed by deployment</h3>
 <p>
     Unlike frameworks like the Java/Scala <a href="http://www.playframework.com/">Play Framework</a> or <a href="http://rubyonrails.org/">Ruby on Rails</a>, Java EE requires compilation and deployment before changes can be observed live. I worked on a reasonably large and modular project with many separate JARs, WARs and EARs. <em>Testing a few changes would require waiting about 20-30 seconds before seeing them live</em> (using reasonably powerful hardware). This delay was torturous when testing many minor tweaks. There are some tools to lessen this issue: <a href="http://zeroturnaround.com/software/jrebel/">JRebel</a> allows for instantaneous changes (if you can afford it), and Netbeans has some <a href="http://wiki.netbeans.org/CompileOnSave#Java_EE">features for live deployment</a>, but you are then tied to the IDE.  
 </p>
 
-<h4>4. PermGen Error</h4>
+<h3>4. PermGen error</h3>
 <p>
     While not a universal problem, I was plagued by this error. When an application is redeployed multiple times, the application server I used, Glassfish, would steadily increase its memory usage. This is due to the classloaders of the previous deployments and their loaded classes <a href="http://stackoverflow.com/questions/7683434/permgen-space-error-glassfish-server">not being garbage collected fully</a>. The memory leak would result in Glassfish having a PermGen Error ever 6-8 redeploys, and would require a forced killing and restart. While this issue was annoying, it did become a <em>funny office joke: “you got PermGenned”</em>.
 </p>
 
-<h4>5. Cryptic Stack Traces</h4>
+<h3>5. Cryptic stack traces</h3>
 <p>
 I feel like Glassfish uses my application’s exception traces as an excuse to carry out a lengthy secretive conversation with some elusive entity going by the name of Grizzy or Felix. At the start, end or somewhere in between, I’m sometimes lucky to have the reason for the exception tagged on. The error messages received are often very vague and can cover a broad range of possible root causes. Our developer team ended up keeping a map of exception messages to possible causes they might be alluding to.
 </p>
 
-<h4>6. Web Designers are not Familiar with JSF</h4>
+<h3>6. Web designers are not familiar with JSF</h3>
 <p>
 Web designers are not familiar with JSF, one of the most popular Java EE view technologies. JSF is great for developers to quickly create nicely looking prototype web applications without having to:
 </p>
@@ -114,12 +114,12 @@ front-end developers (skilled in CSS, Javascript and HTML)
 <p>
     JSF can be seen as <em>a technology choice of back-end developers which is forced upon front-end developers</em>. For anyone working on a project which is likely to have dedicated front-end developers, I advise against using JSF. Instead, I suggest using REST with JX-RS (if you are using Java EE), or another framework, such as the <a href="http://www.playframework.com/" target="_blank">Java Play Framework</a>. 
 </p>
-<h3>The Potential Power of Java EE</h3>
+<h2>The potential power of Java EE</h2>
 <p>
 All the difficulties aside, Java EE embodies a powerful set of technologies. Java EE abstracts away a phenomenal amount of complexity and creates a structure to encourage flexibility and extensibility which is hard to break. Once Java EE is tamed, a single developer can become as productive as a small team of developers which use more basic frameworks (assuming the application is complex enough). The uphill climb to tame Java EE and the many ways to stumble along the way makes Java EE the Charizard of web frameworks. <span class="note">(Java EE is much more than a web framework, but this discussion focuses on the use of Java EE to create web applications)</span>. 
 </p>
 
-<h4>Further Reading</h4>
+<h2>Further reading</h2>
 <p>
 If you decide to start or continue learning Java EE, here are some of the books and other resources I have found useful:
 </p>
@@ -418,11 +418,11 @@ Each field has a type, and each type is defined by a set of analysers (which are
 </span><span class='line'>	<span class="nt">&lt;/analyzer&gt;</span>
 </span><span class='line'><span class="nt">&lt;/fieldType&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
-<h2>Schema Snares</h2>
+<h2>Schema snares</h2>
 <p>
 There are two issues I encountered when creating a schema for which I had trouble finding information online. Consider coming back to this section if you have issues. 
 </p>
-<h3>Multivalued Fields</h3>
+<h3>Multivalued fields</h3>
 <p>
 Multivalued refers to the possibility of their being two values for present in the same document for a single field. For example, for the document shown below, there is always only one title. An example of a multivalued field is the feature field, this can have many values in a single document. What is important to realise when using multivalued fields, is that the data gets flattened. If an auction has 2 features, then the two features get flattened such that the relationship between the name and the value of the feature is lost. 
 </p>
@@ -798,7 +798,7 @@ There two difficult issues I encountered for which it can be hard to uncover the
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Bluetooth Programming With Python 3]]></title>
+    <title type="html"><![CDATA[Bluetooth Programming with Python 3]]></title>
     <link href="http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3/"/>
     <updated>2013-04-21T19:10:33+12:00</updated>
     <id>http://kevindoran.github.io/blog/2013/04/21/bluetooth-programming-with-python-3</id>
@@ -810,7 +810,7 @@ comparison.
 
 <!-- more -->
 
-<h2>The Two Options</h2>
+<h2>The two options</h2>
 <p>
 Currently, the most widely documented way to communicate with Python over Bluetooth is to use <a href="http://code.google.com/p/pybluez/" target="">PyBluez.</a> Previously, PyBluez only supported Python 2. In January 2014, they released a Python 3 version. <br />
 </p>
@@ -818,16 +818,16 @@ Currently, the most widely documented way to communicate with Python over Blueto
 Python 3.3&#8217;s <a href="http://docs.python.org/3.3/library/socket.html" target="">native Python sockets</a> support Bluetooth communication. Unfortunately, there is very little documentation available describing <i>how</i> to use Python sockets to communicate over Bluetooth. While using Bluetooth with these sockets might be easy for someone who already knows how to use Python sockets, the lack of documentation leaves many people unaware that this method of using Bluetooth even exists. Since PyBluez was ported to Python 3, the use of native Python sockets has limited use.<br />
 </p>
 
-<h2>Required Skill: Finding the MAC Address of a Bluetooth Adapter</h2>
+<h2>Required skill: finding the MAC address of a bluetooth adapter</h2>
 <p>
 To run the examples, the MAC address of the Bluetooth adapter used by the server must be known. The client application uses this address to connect to the server. On Linux, you can get a list of all available Bluetooth devices and their MAC addresses using the command <code class="inline-green-code">hciconfig</code>, like so:<br />
 </p>
 <img id='hciconfig' class='img-responsive' src='http://kevindoran.github.io/images/hciconfig.png' alt='hciconfig output'/>
-<h2>Client Sever Messaging</h2>
+<h2>Client sever messaging</h2>
 <p>
 This application connects two devices over Bluetooth and allows one to send messages to the other. The sending device runs <code class="inline-green-code">socketClient.py</code>, and the receiving device runs <code class="inline-green-code">socketServer.py</code>. These scripts are shown below, first using Python sockets, then using PyBluez:
 </p>
-<h3>Python Sockets</h3>
+<h3>Python sockets</h3>
 <figure class='code'><figcaption><span>Client (socketClient.py)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -1035,7 +1035,7 @@ To compare, below is the functionally identical application written using the Py
 <p>
 PyBluez is the most effective way of communicating over Bluetooth using Python. Python sockets can now be used for Bluetooth communication (since Python 3.3).&nbsp; For a simple application, the code is almost identical. For some tasks, however, such as device discovery and Bluetooth service advertisements, it does not seem possible to carry them out using Python sockets. Consequently, PyBluez surpassed Python sockets in most regards. <a href="http://stackoverflow.com/questions/10583362/bluetooth-lib-for-python-3/16129705#16129705">This Stackoverflow question</a> discusses some of the limitations of Python sockets for Bluetooth.<br />
 </p>
-<h2>Further Reading</h2>
+<h2>Further reading</h2>
 <p>
 There is little to no information on Bluetooth programming with Python sockets. There is plenty of information on PyBluez. The following are some useful resources:<br />
 </p>
@@ -1219,7 +1219,7 @@ The code required to create this menu is as follows:
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h2>Back End</h2>
+<h2>Back end</h2>
 <p>
 The above code will work as is if you download the accompanying JAR from the <a href='https://code.google.com/p/jsf-menu/downloads/list' target='_blank'>Google Code project</a>. 
 If you are interested it how to make your own menu from scratch, below is the two extra pieces of code you will have to write:
@@ -1417,7 +1417,7 @@ If you are interested it how to make your own menu from scratch, below is the tw
 </span><span class='line'><span class="nt">&lt;/html&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h2>Accessing the Code</h2>
+<h2>Accessing the code</h2>
 <p>
 The code to create the menu is hosted on a <a href="http://code.google.com/p/jsf-menu/" target="_blank">Google Code project</a>. There is also a <a href="http://code.google.com/p/jsf-menu/downloads/list" target="_blank">convenient JAR</a> that can be downloaded. There are three ways to use the project:
 </p>
@@ -1448,7 +1448,7 @@ The code to create the menu is hosted on a <a href="http://code.google.com/p/jsf
 <p>
 If you have obtained the Maven project, you can change the packaging element: <code>&lt;packaging&gt;jar&lt;/packaging&gt;</code> to <code>&lt;packaging&gt;war&lt;/packaging&gt;</code>. Deploying the resulting WAR file will run he examples show above.
 </p>
-<h3>Some Useful Resources</h3>
+<h3>Some useful resources</h3>
 <p>
 There are a number of books on JSF and Primefaces that I have found useful when working on this topic:
 </p>
@@ -1488,7 +1488,7 @@ This usually takes around 15 minutes. If there are many people watching the movi
 </p>
 
 
-<h2>Movie Rating Robot</h2>
+<h2>Movie rating robot</h2>
 <p>
     The application retrieves the <a href="http://www.rottentomatoes.com/" target="_blank">Rotten Tomato</a> rating for every movie in a chosen folder on your computer or network. All movies are then ordered by rating, helping you pick out the best.
 </p>

@@ -355,11 +355,11 @@ Each field has a type, and each type is defined by a set of analysers (which are
 </span><span class='line'>	<span class="nt">&lt;/analyzer&gt;</span>
 </span><span class='line'><span class="nt">&lt;/fieldType&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
-<h2>Schema Snares</h2>
+<h2>Schema snares</h2>
 <p>
 There are two issues I encountered when creating a schema for which I had trouble finding information online. Consider coming back to this section if you have issues. 
 </p>
-<h3>Multivalued Fields</h3>
+<h3>Multivalued fields</h3>
 <p>
 Multivalued refers to the possibility of their being two values for present in the same document for a single field. For example, for the document shown below, there is always only one title. An example of a multivalued field is the feature field, this can have many values in a single document. What is important to realise when using multivalued fields, is that the data gets flattened. If an auction has 2 features, then the two features get flattened such that the relationship between the name and the value of the feature is lost. 
 </p>
