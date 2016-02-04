@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin Doran]]></title>
   <link href="http://kevindoran.github.io/atom.xml" rel="self"/>
   <link href="http://kevindoran.github.io/"/>
-  <updated>2015-04-05T15:23:24+12:00</updated>
+  <updated>2016-02-05T04:50:16+13:00</updated>
   <id>http://kevindoran.github.io/</id>
   <author>
     <name><![CDATA[Kevin Doran]]></name>
@@ -138,127 +138,182 @@ similar accelerator, I will wholeheartedly encourage them to do so. </p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[How Java EE is the Charizard of Web Frameworks]]></title>
+    <title type="html"><![CDATA[Frustrations of working with Java EE]]></title>
     <link href="http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks/"/>
     <updated>2014-06-07T20:59:52+12:00</updated>
     <id>http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks</id>
-    <content type="html"><![CDATA[<p>
-    When using Java EE to create web applications it can be a powerful but difficult to tame platform, much like the Pokémon character, Charizard. <span class="note">Note: Java EE is much more than a web framework, but this discussion focuses on using it to create web applications.</span> 
+    <content type="html"><![CDATA[<p>When using Java EE to create web applications Java EE can be a
+powerful but difficult to use platform. I list in this post some of
+the more frustrating things I have encountered recently while using
+Java EE. These frustrations aside, I found creating applications with
+Java EE to be efficient and without major pains especially for large
+projects where the initial overhead of the complex platform stops
+becoming a hindrance and starts simplifying difficult problems. 
 </p>
 
-<p>
-For those of you who are not familiar with or do not remember the original Pokémon series, here is a brief recount of Charizard’s story:
-</p>
 <!-- more -->
-<blockquote>
-    <a href="http://bulbapedia.bulbagarden.net/wiki/Charizard_%28Pok%C3%A9mon%29" target="_blank">Charizard</a> was one of the mightiest and most powerful Pokémon of the original 150 Pokémon. The Charizard belonging to the main protagonist, Ash, is infamously disobedient and disloyal. He would blatantly refuse to listen to Ash, going off on his own agenda which often involved attempting to burn various places to the ground. However, despite its rebellious streak, Charizard had moments of camaraderie, and in bursts of flaming might he would often save the day and the lives of his companions (sometimes by accident). Ash knew that if he could tame the mighty Charizard he would become an almost unstoppable Pokémon master.
-</blockquote>
-<p>
-<a href="http://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition">Java EE</a> is the Charizard of Web Development Frameworks. If you can tame it, you can become a master web application developer. But if you don’t, you may find yourself bringing about fiery havoc to a web development project.
-</p>
 
-<h2>Untameable Java EE</h2>
-<p>
-There are 6 ways I list here in which I have had difficulty with Java EE. Firstly, I would like to correct my own post title, as <em>it is not entirely correct to call Java EE a web development framework</em>. It is so much more than that. However, this brings us nicely to the first aspect of Java EE which bewildered me as a newcomer: what exactly is Java EE?
+<h2>Frustrating aspects of Java EE</h2>
+<p>There are 6 ways I list here in which I have had difficulty with
+Java EE. Firstly, I would like to correct my own post title, as <em>it
+is not entirely correct to call Java EE a web development framework</em>.
+It is so much more than that. However, this brings us nicely to the
+first frustrating aspect of Java EE which bewilders newcomers: what
+exactly is Java EE? 
 </p>
-
 <h3>1. What exactly is Java EE</h3>
-<p>
-When I visited Wikipedia, I found this description of Java EE:
+<p>When I visited Wikipedia, I found this description of Java EE: 
 </p>
-<blockquote>
-    Java Platform, Enterprise Edition or Java EE is Oracle&#8217;s <em>enterprise</em> Java <em>computing platform</em>. The platform provides an API and <em>runtime environment</em> for developing and running <em>enterprise software</em>, including network and web services, and other large-scale, <em>multi-tiered</em>, scalable, reliable, and secure network applications. Java EE extends the Java Platform, Standard Edition (Java SE), providing an API for <em>object-relational mapping</em>, <em>distributed</em> and <em>multi-tier architectures</em>, and web services. The platform incorporates a design based largely on <em>modular components</em> running on an <em>application server</em>. 
+<blockquote>Java Platform, Enterprise Edition or Java EE is Oracle&#8217;s
+<em>enterprise</em> Java <em>computing platform</em>. The platform
+provides an API and <em>runtime environment</em> for developing and
+running <em>enterprise software</em>, including network and web
+services, and other large-scale, <em>multi-tiered</em>, scalable,
+reliable, and secure network applications. Java EE extends the Java
+Platform, Standard Edition (Java SE), providing an API for
+<em>object-relational mapping</em>, <em>distributed</em> and
+<em>multi-tier architectures</em>, and web services. The platform
+incorporates a design based largely on <em>modular components</em>
+running on an <em>application server</em>. 
 </blockquote>
-<p>
-This explanation of Java EE seems like a definition which you might re-read after mastering a topic and chuckle contently to oneself knowing that you recognise and appreciate each buzz-word. While each buzz-word may be simple to understand on its own, listing so many buzz-words together doesn&#8217;t paint a clear picture of Java EE. As a newcomer to Java EE, I found it very difficult to penetrate past the dense layer of jargon words which seemed ubiquitous. And it seems <a href="http://stackoverflow.com/questions/15774924/just-what-is-java-ee-really?lq=1">I wasn’t alone</a>.
+<p>This explanation of Java EE seems like a definition which you
+might re-read after mastering a topic and chuckle to yourself as you
+recognize and appreciate each buzz-word. While each buzz-word may be
+simple to understand on its own, listing so many buzz-words together
+doesn&#8217;t paint a clear picture of Java EE. While a newcomer to Java
+EE, I found it very difficult to penetrate past the dense layer of
+jargon words which were ubiquitous. And it seems <a href="http://stackoverflow.com/questions/15774924/just-what-is-java-ee-really?lq=1">I
+wasn’t alone</a>. 
 </p>
-
 <h3>2. 100 ways to do the same thing</h3>
-<p>
-With flexibility comes choice. When I began using Java EE, I struggled to decide how to tackle problems, even simple problems. When I am solving a problem, I feel comfortable creating a solution which I feel takes into account best practices and the success of other approaches to similar problems. However, I would find myself spending 90% of my time researching architectural decisions before beginning to tackle a task. This was due to the <em>overwhelming choice provided by the Java EE landscape</em>. Here are some of the sources of choice:
+<p>With flexibility comes choice. When I began using Java EE, I
+struggled to decide how to tackle problems, even simple problems.
+When I am solving a problem, I feel comfortable creating a solution
+which I feel takes into account best practices and the success of
+other approaches to similar problems. However, I would find myself
+spending 90% of my time researching architectural decisions before
+beginning to tackle a task. This was due to the <em>overwhelming
+choice provided by the Java EE landscape</em>. Here are some of the
+sources of choice: 
 </p>
 <ul>
-    <li>There are many implementations of Java EE (this choice can be broken down as each layer of the Java EE stack, such as <a href="http://en.wikibooks.org/wiki/Java_Persistence">JPA</a> and <a href="http://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services">JX-RS</a> can have multiple implementations).
-</li>
-<li>
-There are many application servers (such as <a href="https://glassfish.java.net/">Glassfish</a>, <a href="http://www.wildfly.org/">JBoss AS/WildFly</a>, <a href="http://www-01.ibm.com/software/websphere/">WebSphere</a>, Tomcat/<a href="http://tomee.apache.org/apache-tomee.html">TomEE</a>, <a href="http://www.oracle.com/technetwork/middleware/weblogic/overview/index.html">WebLogic</a>)
-</li>
-<li>
-Which layer of the stack to use: should I put the logic in <a href="http://en.wikipedia.org/wiki/JavaServer_Faces">JSF</a>’s managed beans, or <a href="http://en.wikipedia.org/wiki/Ejb">EJB</a>s, or plain java classes (or sometimes even in JSF/JSP files).
-</li>
-<li>
-Which mentality should I have: as each Java EE version is released, new approaches to old problems are invented and become available alongside the old ones in the quiver of choices. The new approaches hold promises of increased productivity while the old approaches have reliable documentation, are not as affected by bugs and work alongside my existing code. It reality, a mix and match of new and old get used together.
-</li>
-<li>
-Packaging options: should I have WARs and EJB JARs in an EAR, or just use a lightweight WAR?
-</li>
+	<li><p>There are many implementations of
+	Java EE (this choice can be broken down as each layer of the Java EE
+	stack such as <a href="http://en.wikibooks.org/wiki/Java_Persistence">JPA</a>
+	and <a href="http://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services">JX-RS</a>
+	can have multiple implementations). 
+	</p>
+	<li><p>There are many application servers
+	(such as <a href="https://glassfish.java.net/">Glassfish</a>, <a href="http://www.wildfly.org/">JBoss
+	AS/WildFly</a>, <a href="http://www-01.ibm.com/software/websphere/">WebSphere</a>,
+	Tomcat/<a href="http://tomee.apache.org/apache-tomee.html">TomEE</a>,
+	<a href="http://www.oracle.com/technetwork/middleware/weblogic/overview/index.html">WebLogic</a>)
+		</p>
+	<li><p>Which layer of the stack to use:
+	should I put the logic in <a href="http://en.wikipedia.org/wiki/JavaServer_Faces">JSF</a>’s
+	managed beans, or <a href="http://en.wikipedia.org/wiki/Ejb">EJB</a>s,
+	or plain Java classes (or sometimes even in JSF/JSP files). 
+	</p>
+	<li><p>Which mentality should I have: as
+	each Java EE version is released, new approaches to old problems are
+	invented and become available alongside the old ones in a quiver of
+	choices. The new approaches hold promises of increased productivity
+	while the old approaches have reliable documentation, are not as
+	affected by bugs and work alongside my existing code. It reality, a
+	mix and match of new and old get used together. 
+	</p>
+	<li><p>Packaging options: should I have WARs and EJB JARs in an EAR,
+	or just use a lightweight WAR? 
+	</p>
 </ul>
-<p>
-Java EE offers immense flexibility. It is both a blessing and a curse.
+<p>Java EE offers immense flexibility, and if you don&#8217;t need this
+flexibility you will probably waste time having to deal with it. 
 </p>
-
 <h3>3. Development is slowed by deployment</h3>
-<p>
-    Unlike frameworks like the Java/Scala <a href="http://www.playframework.com/">Play Framework</a> or <a href="http://rubyonrails.org/">Ruby on Rails</a>, Java EE requires compilation and deployment before changes can be observed live. I worked on a reasonably large and modular project with many separate JARs, WARs and EARs. <em>Testing a few changes would require waiting about 20-30 seconds before seeing them live</em> (using reasonably powerful hardware). This delay was torturous when testing many minor tweaks. There are some tools to lessen this issue: <a href="http://zeroturnaround.com/software/jrebel/">JRebel</a> allows for instantaneous changes (if you can afford it), and Netbeans has some <a href="http://wiki.netbeans.org/CompileOnSave#Java_EE">features for live deployment</a>, but you are then tied to the IDE.  
+<p>Unlike frameworks like the Java/Scala <a href="http://www.playframework.com/">Play
+Framework</a> or <a href="http://rubyonrails.org/">Ruby on Rails</a>,
+Java EE requires compilation and deployment before changes can be
+observed live. The largest application I worked on comprised of a
+number of  modular projects with many separate JARs, WARs and EARs.
+<em>Testing a few changes would require waiting about 20-30 seconds
+before seeing them live</em> (using at the time powerful hardware).
+This delay was torturous when testing minor tweaks. There are some
+tools to lessen this issue; <a href="http://zeroturnaround.com/software/jrebel/">JRebel</a>
+allows for instantaneous changes, if you can afford it; and Netbeans
+has some <a href="http://wiki.netbeans.org/CompileOnSave#Java_EE">features
+for live deployment</a>, but it doesn&#8217;t solve the whole problem and
+you then must give up any choice of IDE if you want the problem
+solved. 
 </p>
-
 <h3>4. PermGen error</h3>
-<p>
-    While not a universal problem, I was plagued by this error. When an application is redeployed multiple times, the application server I used, Glassfish, would steadily increase its memory usage. This is due to the classloaders of the previous deployments and their loaded classes <a href="http://stackoverflow.com/questions/7683434/permgen-space-error-glassfish-server">not being garbage collected fully</a>. The memory leak would result in Glassfish having a PermGen Error ever 6-8 redeploys, and would require a forced killing and restart. While this issue was annoying, it did become a <em>funny office joke: “you got PermGenned”</em>.
+<p>While not a universal problem, this memory error can be very
+annoying while developing and testing. When an application is
+redeployed multiple times,  the application server I used, Glassfish,
+would steadily increase its memory usage. This is due to the
+classloaders of the previous deployments and their loaded classes <a href="http://stackoverflow.com/questions/7683434/permgen-space-error-glassfish-server">not
+being garbage collected fully</a>. The memory leak would result in
+Glassfish having a PermGen Error ever 6-8 redeploys, and would
+require a forced killing and restart. While this issue was annoying,
+it did become office humor when someone would get<em> </em><em>&#8216;</em><em>PermGenned</em><em>&#8217;</em>.
 </p>
-
 <h3>5. Cryptic stack traces</h3>
-<p>
-I feel like Glassfish uses my application’s exception traces as an excuse to carry out a lengthy secretive conversation with some elusive entity going by the name of Grizzy or Felix. At the start, end or somewhere in between, I’m sometimes lucky to have the reason for the exception tagged on. The error messages received are often very vague and can cover a broad range of possible root causes. Our developer team ended up keeping a map of exception messages to possible causes they might be alluding to.
+<p>It often looks like Glassfish uses my application’s exception
+trace as a channel to carry out a lengthy  conversation with some
+entity called Grizzy or Felix. Somewhere, often not obvious, the
+reason for the exception might be buried. The error messages received
+are often very vague and can cover a broad range of possible root
+causes. 
 </p>
-
-<h3>6. Web designers are not familiar with JSF</h3>
-<p>
-Web designers are not familiar with JSF, one of the most popular Java EE view technologies. JSF is great for developers to quickly create nicely looking prototype web applications without having to:
-</p>
-<ul>
-<li>
-Worry about the details of creating a stateful application on-top of HTTP (which is stateless).
-</li>
-<li>
-Worry about CSS (when using a component library, such as <a href="http://thoughtworks.fileburst.com/assets/technology-radar-jan-2014-en.pdf">Primefaces</a>).
-</li>
-</ul>
-<p>
-However, JSF does this by abstracting away CSS and many HTTP and HTML characteristics (see <a href="http://thoughtworks.fileburst.com/assets/technology-radar-jan-2014-en.pdf">ThoughtWork&#8217;s report</a>). Consequently, when web designers who live and breathe CSS and standard HTML come to help on a JSF project they are slowed to a stall. <em>JSF does not align with the natural decoupling of roles</em> in a web development project:
+<h3>6. JSF abstracts away important technologies</h3>
+<p>JSF is great for developers to quickly create nicely looking
+prototype web applications without having to: 
 </p>
 <ul>
-<li>
-back-end developers (skilled in the technology of their choice)
-</li>
-<li>
-front-end developers (skilled in CSS, Javascript and HTML)
-</li>
+	<li><p style="margin-bottom: 0in">Worry about the details of
+	creating a stateful application on-top of HTTP. 
+	</p>
+	<li><p>Worry about CSS (instead use a component library, such as
+	<a href="http://thoughtworks.fileburst.com/assets/technology-radar-jan-2014-en.pdf">Primefaces</a>).
+		</p>
 </ul>
-<p>
-    JSF can be seen as <em>a technology choice of back-end developers which is forced upon front-end developers</em>. For anyone working on a project which is likely to have dedicated front-end developers, I advise against using JSF. Instead, I suggest using REST with JX-RS (if you are using Java EE), or another framework, such as the <a href="http://www.playframework.com/" target="_blank">Java Play Framework</a>. 
-</p>
+<p>However, JSF does this by abstracting away CSS, HTML  and many
+HTTP characteristics. The abstraction is not easy to work with and
+obstructs the power of the front end web technologies. This
+abstraction makes it  difficult to work alongside designers and front
+end developers who are not familiar with JSF. A <a href="http://thoughtworks.fileburst.com/assets/technology-radar-jan-2014-en.pdf">ThoughtWork&#8217;s
+report</a> highlights some of the issues with JSF and suggests avoid
+it.</p>
 <h2>The potential power of Java EE</h2>
-<p>
-All the difficulties aside, Java EE embodies a powerful set of technologies. Java EE abstracts away a phenomenal amount of complexity and creates a structure to encourage flexibility and extensibility which is hard to break. Once Java EE is tamed, a single developer can become as productive as a small team of developers which use more basic frameworks (assuming the application is complex enough). The uphill climb to tame Java EE and the many ways to stumble along the way makes Java EE the Charizard of web frameworks. <span class="note">(Java EE is much more than a web framework, but this discussion focuses on the use of Java EE to create web applications)</span>. 
-</p>
-
+<p>Java EE embodies a powerful set of technologies but is difficult
+to use. Java EE abstracts away a phenomenal amount of complexity and
+creates a structure to encourage flexibility and extensibility. It
+may be beneficial to use Java EE if a project is expected to be
+complex and flexibility is needed. In other cases, using a simpler
+framework such as the Java/Scala Play Framework, will probably be
+more efficient.</p>
 <h2>Further reading</h2>
-<p>
-If you decide to start or continue learning Java EE, here are some of the books and other resources I have found useful:
+<p>If you decide to start or continue learning Java EE, here are some
+of the books and other resources I have found useful: 
 </p>
 <ul>
-<li><a href="http://www.amazon.com/gp/product/1935182994/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1935182994&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=3LF44BQXRCUDICFO">EJB 3 in Action</a><img alt="" border="0" src="http://ir-na.amazon-adsystem.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=1935182994" height="1" style="border: none !important; margin: 0px !important;" width="1" /></li>
-<li><a href="http://www.amazon.com/gp/product/0137012896/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0137012896&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=UOEYOA66DTJBPII6">Core JavaServer Faces (3rd Edition)</a><img alt="" border="0" src="http://ir-na.amazon-adsystem.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=0137012896" height="1" style="border: none !important; margin: 0px !important;" width="1" />
-
-</li>
-<li><a href="http://www.amazon.com/gp/product/143024626X/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=143024626X&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=QOBZFECHSXOFTF3Q">Beginning Java EE 7</a><img alt="" border="0" src="http://ir-na.amazon-adsystem.com/e/ir?t=kevidoraprog-20&amp;l=as2&amp;o=1&amp;a=143024626X" height="1" style="border: none !important; margin: 0px !important;" width="1" />
-</li>
-<li><a href="http://en.wikibooks.org/wiki/Java_Persistence" target="_blank">Java Persistence Wikibook</a></li>
+	<li><p><a href="http://www.amazon.com/gp/product/1935182994/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1935182994&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=3LF44BQXRCUDICFO">EJB
+	3 in Action</a><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAADFBMVEX////8A/sAAAD///9gBn0RAAAAAnRSTlP/AOW3MEoAAAAKSURBVHicY2AEAAADAAJL9d3qAAAAAElFTkSuQmCC" name="Image1" align="bottom" width="2" height="2" border="0">
+		</p>
+	<li><p><a href="http://www.amazon.com/gp/product/0137012896/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0137012896&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=UOEYOA66DTJBPII6">Core
+	JavaServer Faces (3rd Edition)</a><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAADFBMVEX////8A/sAAAD///9gBn0RAAAAAnRSTlP/AOW3MEoAAAAKSURBVHicY2AEAAADAAJL9d3qAAAAAElFTkSuQmCC" name="Image2" align="bottom" width="2" height="2" border="0">
+		</p>
+	<li><p><a href="http://www.amazon.com/gp/product/143024626X/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=143024626X&amp;linkCode=as2&amp;tag=kevidoraprog-20&amp;linkId=QOBZFECHSXOFTF3Q">Beginning
+	Java EE 7</a><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAMAAAAoyzS7AAAADFBMVEX////8A/sAAAD///9gBn0RAAAAAnRSTlP/AOW3MEoAAAAKSURBVHicY2AEAAADAAJL9d3qAAAAAElFTkSuQmCC" name="Image3" align="bottom" width="2" height="2" border="0">
+		</p>
+	<li><p><a href="http://en.wikibooks.org/wiki/Java_Persistence" target="_blank">Java
+	Persistence Wikibook</a> 
+	</p>
 </ul>
-<p>
-I used the previous editions of some of these books, as it was a while ago when I started using Java EE. 
-</p>]]></content>
+<p><br><br>
+</p>
+</body>
+</html>
+]]></content>
   </entry>
   
   <entry>
