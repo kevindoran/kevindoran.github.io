@@ -9,12 +9,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Frustrations of working with Java EE - Kevin Doran</title>
+  <title>Frustrating Aspects of Java EE - Kevin Doran</title>
   <meta name="author" content="Kevin Doran">
 
   
-  <meta name="description" content="Frustrations of working with Java EE written Jun 7th, 2014 When using Java EE to create web applications Java EE can be a
-powerful but difficult to &hellip;">
+  <meta name="description" content="Frustrating Aspects of Java EE written Jun 7th, 2014 When using Java EE to create web applications, Java EE can be a
+powerful but difficult to use &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,7 +23,7 @@ powerful but difficult to &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks">
+  <link rel="canonical" href="http://kevindoran.github.io/frustrating-aspects-of-java-ee">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Kevin Doran" type="application/atom+xml">
@@ -60,7 +60,7 @@ powerful but difficult to &hellip;">
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h1>Frustrations of working with Java EE</h1>
+        <h1>Frustrating Aspects of Java EE</h1>
         <div class="meta">
           written 
 
@@ -80,7 +80,7 @@ powerful but difficult to &hellip;">
 
 
         </div>
-        <p>When using Java EE to create web applications Java EE can be a
+        <p>When using Java EE to create web applications, Java EE can be a
 powerful but difficult to use platform. I list in this post some of
 the more frustrating things I have encountered recently while using
 Java EE. These frustrations aside, I found creating applications with
@@ -91,9 +91,7 @@ becoming a hindrance and starts simplifying difficult problems.
 
 <!-- more -->
 
-<h2>Frustrating aspects of Java EE</h2>
-<p>There are 6 ways I list here in which I have had difficulty with
-Java EE. Firstly, I would like to correct my own post title, as <em>it
+<p>Firstly, I would like to correct my own post title, as <em>it
 is not entirely correct to call Java EE a web development framework</em>.
 It is so much more than that. However, this brings us nicely to the
 first frustrating aspect of Java EE which bewilders newcomers: what
@@ -128,7 +126,7 @@ wasn’t alone</a>.
 struggled to decide how to tackle problems, even simple problems.
 When I am solving a problem, I feel comfortable creating a solution
 which I feel takes into account best practices and the success of
-other approaches to similar problems. However, I would find myself
+other approaches to similar problems. However, with Java EE I would find myself
 spending 90% of my time researching architectural decisions before
 beginning to tackle a task. This was due to the <em>overwhelming
 choice provided by the Java EE landscape</em>. Here are some of the
@@ -170,7 +168,7 @@ flexibility you will probably waste time having to deal with it.
 <h3>3. Development is slowed by deployment</h3>
 <p>Unlike frameworks like the Java/Scala <a href="http://www.playframework.com/">Play
 Framework</a> or <a href="http://rubyonrails.org/">Ruby on Rails</a>,
-Java EE requires compilation and deployment before changes can be
+Java EE requires compilation, packaging and deployment before changes can be
 observed live. The largest application I worked on comprised of a
 number of  modular projects with many separate JARs, WARs and EARs.
 <em>Testing a few changes would require waiting about 20-30 seconds
@@ -219,9 +217,9 @@ HTTP characteristics. The abstraction is not easy to work with and
 obstructs the power of the front end web technologies. This
 abstraction makes it  difficult to work alongside designers and front
 end developers who are not familiar with JSF. A <a href="http://thoughtworks.fileburst.com/assets/technology-radar-jan-2014-en.pdf">ThoughtWork&#8217;s
-report</a> highlights some of the issues with JSF and suggests avoid
+report</a> highlights some of the issues with JSF and suggests avoiding
 it.</p>
-<h2>The potential power of Java EE</h2>
+<h2>Java EE&#8217;s Potential</h2>
 <p>Java EE embodies a powerful set of technologies but is difficult
 to use. Java EE abstracts away a phenomenal amount of complexity and
 creates a structure to encourage flexibility and extensibility. It
@@ -280,8 +278,8 @@ of the books and other resources I have found useful:
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks/';
-        var disqus_url = 'http://kevindoran.github.io/how-java-ee-is-the-charizard-of-web-frameworks/';
+        var disqus_identifier = 'http://kevindoran.github.io/frustrating-aspects-of-java-ee/';
+        var disqus_url = 'http://kevindoran.github.io/frustrating-aspects-of-java-ee/';
         var disqus_script = 'embed.js';
       
     (function () {
